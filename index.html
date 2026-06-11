@@ -1,1 +1,54 @@
 
+import time
+import random
+
+class SistemaIrrigacaoAgrinho:
+    def __init__(self, umidade_ideal=60.0):
+        self.umidade_ideal = umidade_ideal
+        self.sensor_umidade = 50.0  # Umidade inicial do solo (%)
+        self.valvula_aberta = False
+        self.agua_economizada = 0.0  # Litros economizados
+
+    def ler_sensor(self):
+        # Simula a variação do clima e do solo
+        variacao = random.uniform(-5.0, 3.0)
+        self.sensor_umidade = max(0.0, min(100.0, self.sensor_umidade + variacao))
+        return round(self.sensor_umidade, 2)
+
+    def processar_dados(self):
+        umidade_atual = self.ler_sensor()
+        print(f"\n[Status] Umidade atual do solo: {umidade_atual}%")
+
+        if umidade_atual < self.umidade_ideal:
+            if not self.valvula_aberta:
+                print("🌱 [Alerta] Solo seco! Abrindo válvula de água de forma controlada.")
+                self.valvula_aberta = True
+            # Simula a recuperação da umidade ao irrigar
+            self.sensor_umidade += 8.0
+        else:
+            if self.valvula_aberta:
+                print("💧 [Sucesso] Umidade ideal atingida. Fechando válvula para evitar desperdício.")
+                self.valvula_aberta = False
+                self.agua_economizada += 15.5
+            print("🌾 [Sustentável] Solo em condições perfeitas. Água preservada!")
+
+        print(f"📉 Total de água economizada até agora: {round(self.agua_economizada, 1)} Litros")
+
+# --- Execução do Projeto Agrinho 2026 ---
+if __name__ == "__main__":
+    print("==================================================")
+    print("      PROJETO AGRINHO 2026: AGRO SUSTENTÁVEL      ")
+    print("==================================================")
+    print("Iniciando protótipo de monitoramento ecológico...\n")
+    
+    # Executa 5 ciclos de teste simulando o monitoramento da fazenda
+    for ciclo in range(1, 6):
+        print(f"--- Ciclo de Checagem #{ciclo} ---")
+        # Instância criada com umidade ideal de 60%
+        sistema = SistemaIrrigacaoAgrinho() if ciclo == 1 else sistema
+        sistema.processar_dados()
+        time.sleep(2)  # Pausa de 2 segundos entre as leituras
+        
+    print("\n==================================================")
+    print("Simulação concluída com sucesso! Futuro garantido.")
+    print("==================================================")
